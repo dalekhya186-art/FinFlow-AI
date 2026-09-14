@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FinFlow AI - Customers</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f6f7fb;
+            color: #1f2937;
+        }
+
+
+        /* =================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+
+            color: white;
+
+            padding: 28px 18px;
+        }
+
+
+        .logo {
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            margin-bottom: 35px;
+
+            padding-left: 12px;
+        }
+
+
+        .logo span {
+            color: #6c8cff;
+        }
+
+
+        .nav-item {
+
+            display: block;
+
+            padding: 13px 14px;
+
+            margin: 6px 0;
+
+            border-radius: 9px;
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .nav-item:hover {
+
+            background: #1f2937;
+
+            color: white;
+        }
+
+
+        .nav-item.active {
+
+            background: #526ff1;
+
+            color: white;
+        }
+
+
+        /* =================================
+           MAIN
+        ================================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            padding: 30px 35px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =================================
+           TOP BAR
+        ================================= */
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .header h1 {
+
+            font-size: 30px;
+
+            color: #17244f;
+        }
+
+
+        .header p {
+
+            margin-top: 6px;
+
+            color: #6b7280;
+        }
+
+
+        /* =================================
+           USER PROFILE
+        ================================= */
+
+        .profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            background: white;
+
+            padding: 8px 14px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(35, 50, 90, 0.06);
+        }
+
+
+        .avatar {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #526ff1;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+
+        .profile-info {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .profile-name {
+
+            color: #17244f;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .profile-email {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+            font-weight: normal;
+        }
+
+
+        /* =================================
+           SEARCH
+        ================================= */
+
+        .search-box {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(35, 50, 90, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border: 1px solid #d9def0;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        .search-box input:focus {
+
+            border-color: #526ff1;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(82, 111, 241, 0.1);
+        }
+
+
+        /* =================================
+           CUSTOMER GRID
+        ================================= */
+
+        .customer-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(260px, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .customer-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(35, 50, 90, 0.06);
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .customer-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(35, 50, 90, 0.1);
+        }
+
+
+        .customer-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #eef2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .customer-card h3 {
+
+            color: #17244f;
+
+            margin-bottom: 7px;
+        }
+
+
+        .customer-id {
+
+            color: #526ff1;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+
+        .customer-info {
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =================================
+           HISTORY PANEL
+        ================================= */
+
+        .history-panel {
+
+            display: none;
+
+            background: white;
+
+            padding: 25px;
+
+            margin-top: 28px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(35, 50, 90, 0.06);
+        }
+
+
+        .history-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .history-header h2 {
+
+            color: #17244f;
+        }
+
+
+        .close-btn {
+
+            border: none;
+
+            background: #eef2ff;
+
+            color: #526ff1;
+
+            padding: 8px 14px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+
+        /* =================================
+           STATS
+        ================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat {
+
+            background: #f8f9fd;
+
+            padding: 18px;
+
+            border-radius: 10px;
+        }
+
+
+        .stat-label {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .stat-value {
+
+            color: #17244f;
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        /* =================================
+           TABLE
+        ================================= */
+
+        .table-container {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            text-align: left;
+
+            padding: 13px;
+
+            background: #f8f9fd;
+
+            color: #59627a;
+
+            font-size: 13px;
+        }
+
+
+        td {
+
+            padding: 14px 13px;
+
+            border-bottom:
+                1px solid #edf0f5;
+
+            font-size: 14px;
+        }
+
+
+        .status {
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            background: #eef2ff;
+
+            color: #526ff1;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #6b7280;
+        }
+
+
+        .loading {
+
+            text-align: center;
+
+            padding: 40px;
+
+            color: #6b7280;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     SIDEBAR
+===================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        FinFlow <span>AI</span>
+    </div>
+
+
+    <a
+        href="dashboard.html"
+        class="nav-item"
+    >
+        🏠 Dashboard
+    </a>
+
+
+    <a
+        href="upload.html"
+        class="nav-item"
+    >
+        📄 Upload Document
+    </a>
+
+
+    <a
+        href="document.html"
+        class="nav-item"
+    >
+        📁 Documents
+    </a>
+
+
+    <a
+        href="customers.html"
+        class="nav-item active"
+    >
+        👥 Customers
+    </a>
+
+
+    <a
+        href="reports.html"
+        class="nav-item"
+    >
+        📊 Reports
+    </a>
+
+
+    <a
+        href="settings.html"
+        class="nav-item"
+    >
+        ⚙️ Settings
+    </a>
+
+</div>
+
+
+
+<!-- =====================================
+     MAIN
+===================================== -->
+
+<div class="main">
+
+
+    <!-- =================================
+         TOP BAR
+    ================================= -->
+
+    <div class="topbar">
+
+
+        <div class="header">
+
+            <h1>
+                Customers
+            </h1>
+
+
+            <p>
+                Search customers and view their payment history
+            </p>
+
+        </div>
+
+
+
+        <!-- USER PROFILE -->
+
+        <div class="profile">
+
+
+            <div
+                class="avatar"
+                id="avatar"
+            >
+                U
+            </div>
+
+
+            <div class="profile-info">
+
+
+                <span
+                    class="profile-name"
+                    id="userName"
+                >
+                    Loading...
+                </span>
+
+
+                <span
+                    class="profile-email"
+                    id="userEmail"
+                >
+                    Loading...
+                </span>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         SEARCH
+    ================================= -->
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔎 Search by Customer ID, name, email or phone..."
+            oninput="searchCustomers()"
+        >
+
+    </div>
+
+
+
+    <!-- =================================
+         CUSTOMER LIST
+    ================================= -->
+
+    <div
+        id="customerGrid"
+        class="customer-grid"
+    >
+
+        <div class="loading">
+            Loading customers...
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         HISTORY
+    ================================= -->
+
+    <div
+        id="historyPanel"
+        class="history-panel"
+    >
+
+
+        <div class="history-header">
+
+            <h2>
+                Customer Payment History
+            </h2>
+
+
+            <button
+                class="close-btn"
+                onclick="closeHistory()"
+            >
+                Close
+            </button>
+
+        </div>
+
+
+        <div
+            id="customerDetails"
+        ></div>
+
+
+        <div
+            id="historyStats"
+            class="stats"
+        ></div>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Document
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Paid
+                        </th>
+
+                        <th>
+                            Due
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="historyTable"
+                ></tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   FINFLOW AI API
+========================================= */
+
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
+
+
+
+/* =========================================
+   USER DETAILS
+========================================= */
+
+const savedName =
+    localStorage.getItem(
+        "userName"
+    );
+
+
+const savedEmail =
+    localStorage.getItem(
+        "userEmail"
+    );
+
+
+const loggedIn =
+    localStorage.getItem(
+        "loggedIn"
+    );
+
+
+
+/* =========================================
+   LOGIN CHECK
+========================================= */
+
+if (
+    loggedIn !== "true" ||
+    !savedEmail
+) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+else {
+
+
+    document.getElementById(
+        "userName"
+    ).textContent =
+        savedName ||
+        "User";
+
+
+    document.getElementById(
+        "userEmail"
+    ).textContent =
+        savedEmail;
+
+
+    document.getElementById(
+        "avatar"
+    ).textContent =
+        (
+            savedName ||
+            savedEmail
+        )
+        .charAt(0)
+        .toUpperCase();
+
+}
+
+
+
+/* =========================================
+   CUSTOMER DATA
+========================================= */
+
+let allCustomers = [];
+
+
+
+/* =========================================
+   LOAD CUSTOMERS
+========================================= */
+
+async function loadCustomers() {
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/customers/`,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    }
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load customers."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        allCustomers =
+            data.customers || [];
+
+
+        displayCustomers(
+            allCustomers
+        );
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Customer loading error:",
+            error
+        );
+
+
+        document.getElementById(
+            "customerGrid"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                ❌ Unable to load customers.
+
+                <br><br>
+
+                Make sure FastAPI and ngrok are running.
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================
+   DISPLAY CUSTOMERS
+========================================= */
+
+function displayCustomers(
+    customers
+) {
+
+
+    const grid =
+        document.getElementById(
+            "customerGrid"
+        );
+
+
+    if (
+        !customers.length
+    ) {
+
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                No customers found.
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+
+    grid.innerHTML =
+        customers.map(
+            customer => `
+
+            <div
+                class="customer-card"
+                onclick="showHistory(
+                    '${escapeHtml(
+                        customer.customer_id
+                    )}'
+                )"
+            >
+
+
+                <div class="customer-icon">
+
+                    👤
+
+                </div>
+
+
+                <h3>
+
+                    ${escapeHtml(
+                        customer.name
+                    )}
+
+                </h3>
+
+
+                <div class="customer-id">
+
+                    ${escapeHtml(
+                        customer.customer_id
+                    )}
+
+                </div>
+
+
+                <div class="customer-info">
+
+
+                    📧 ${
+                        escapeHtml(
+                            customer.email ||
+                            "No email"
+                        )
+                    }
+
+
+                    <br>
+
+
+                    📞 ${
+                        escapeHtml(
+                            customer.phone ||
+                            "No phone"
+                        )
+                    }
+
+
+                </div>
+
+
+            </div>
+
+        `
+        ).join("");
+
+}
+
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+async function searchCustomers() {
+
+
+    const query =
+        document.getElementById(
+            "searchInput"
+        )
+        .value
+        .trim();
+
+
+
+    if (!query) {
+
+        displayCustomers(
+            allCustomers
+        );
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/customers/search?q=${encodeURIComponent(query)}`,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    }
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Search failed."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        displayCustomers(
+            data.customers || []
+        );
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Search error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   SHOW HISTORY
+========================================= */
+
+async function showHistory(
+    customerId
+) {
+
+
+    const panel =
+        document.getElementById(
+            "historyPanel"
+        );
+
+
+    panel.style.display =
+        "block";
+
+
+    document.getElementById(
+        "historyTable"
+    ).innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                class="loading"
+            >
+
+                Loading payment history...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/customers/${encodeURIComponent(customerId)}/history`,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    }
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load history."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.status === "error"
+        ) {
+
+            showHistoryError(
+                data.message
+            );
+
+            return;
+
+        }
+
+
+
+        /* =================================
+           CUSTOMER DETAILS
+        ================================= */
+
+        const customer =
+            data.customer || {};
+
+
+        document.getElementById(
+            "customerDetails"
+        ).innerHTML = `
+
+            <div class="customer-info">
+
+                <strong>
+
+                    ${escapeHtml(
+                        customer.name || ""
+                    )}
+
+                </strong>
+
+
+                <br>
+
+
+                Customer ID:
+
+                ${escapeHtml(
+                    customer.customer_id || ""
+                )}
+
+
+                <br>
+
+
+                ${escapeHtml(
+                    customer.email || ""
+                )}
+
+
+                ${
+                    customer.phone
+                    ? " | " +
+                      escapeHtml(
+                          customer.phone
+                      )
+                    : ""
+                }
+
+            </div>
+
+        `;
+
+
+
+        /* =================================
+           STATS
+        ================================= */
+
+        const summary =
+            data.summary || {};
+
+
+        document.getElementById(
+            "historyStats"
+        ).innerHTML = `
+
+
+            <div class="stat">
+
+                <div class="stat-label">
+
+                    Total Transactions
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    ${
+                        summary.total_transactions ||
+                        0
+                    }
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                <div class="stat-label">
+
+                    Total Amount
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    ₹${
+                        formatAmount(
+                            summary.total_amount
+                        )
+                    }
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                <div class="stat-label">
+
+                    Total Due
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    ₹${
+                        formatAmount(
+                            summary.total_due
+                        )
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+
+
+        /* =================================
+           HISTORY TABLE
+        ================================= */
+
+        const history =
+            data.history || [];
+
+
+        const table =
+            document.getElementById(
+                "historyTable"
+            );
+
+
+        if (
+            !history.length
+        ) {
+
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+
+                        No transaction history
+                        available.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            return;
+
+        }
+
+
+
+        table.innerHTML =
+            history.map(
+                transaction => `
+
+                <tr>
+
+                    <td>
+
+                        ${
+                            escapeHtml(
+                                transaction.document_number ||
+                                "-"
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            escapeHtml(
+                                transaction.transaction_type ||
+                                "-"
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ₹${
+                            formatAmount(
+                                transaction.amount
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ₹${
+                            formatAmount(
+                                transaction.paid_amount
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ₹${
+                            formatAmount(
+                                transaction.due_amount
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status">
+
+                            ${
+                                escapeHtml(
+                                    transaction.payment_status ||
+                                    "Pending"
+                                )
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            escapeHtml(
+                                transaction.transaction_date ||
+                                "-"
+                            )
+                        }
+
+                    </td>
+
+                </tr>
+
+            `
+            ).join("");
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "History error:",
+            error
+        );
+
+
+        showHistoryError(
+            "Unable to load customer history."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   CLOSE HISTORY
+========================================= */
+
+function closeHistory() {
+
+
+    document.getElementById(
+        "historyPanel"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =========================================
+   HISTORY ERROR
+========================================= */
+
+function showHistoryError(
+    message
+) {
+
+
+    document.getElementById(
+        "historyTable"
+    ).innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                class="empty"
+            >
+
+                ${escapeHtml(
+                    message
+                )}
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+
+/* =========================================
+   FORMAT AMOUNT
+========================================= */
+
+function formatAmount(
+    amount
+) {
+
+
+    if (
+        amount === null ||
+        amount === undefined ||
+        amount === ""
+    ) {
+
+        return "0";
+
+    }
+
+
+    const number =
+        parseFloat(
+            String(amount)
+                .replace(/,/g, "")
+                .replace(/₹/g, "")
+        );
+
+
+    if (
+        isNaN(number)
+    ) {
+
+        return "0";
+
+    }
+
+
+    return number.toLocaleString(
+        "en-IN"
+    );
+
+}
+
+
+
+/* =========================================
+   HTML SAFETY
+========================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =========================================
+   START
+========================================= */
+
+loadCustomers();
+
+</script>
+
+
+</body>
+
+</html>
