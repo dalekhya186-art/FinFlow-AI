@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +5,9 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>Review - FinFlow AI</title>
 
@@ -140,9 +141,7 @@ h1 {
     color: #fecaca;
 }
 
-/* ==============================
-   GENAI BOX
-============================== */
+/* GENAI */
 
 .ai-box {
     background: linear-gradient(
@@ -181,9 +180,7 @@ h1 {
     border-left: 4px solid #6366f1;
 }
 
-/* ==============================
-   HUMAN APPROVAL
-============================== */
+/* APPROVAL */
 
 .approval-box {
     margin-top: 20px;
@@ -261,19 +258,16 @@ button:disabled {
 }
 
 .success {
-    display: block;
     background: #064e3b;
     color: #a7f3d0;
 }
 
 .warning {
-    display: block;
     background: #78350f;
     color: #fde68a;
 }
 
 .error {
-    display: block;
     background: #7f1d1d;
     color: #fecaca;
 }
@@ -282,6 +276,12 @@ button:disabled {
     text-align: center;
     padding: 50px;
     color: #94a3b8;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    color: #93c5fd;
 }
 
 @media (max-width: 700px) {
@@ -371,7 +371,7 @@ button:disabled {
 
     <div id="reviewArea">
 
-        <div class="empty">
+        <div class="loading">
             Loading document...
         </div>
 
@@ -383,21 +383,57 @@ button:disabled {
 <script>
 
 
-const response =
-    await fetch(
-        "https://chili-latch-cardinal.ngrok-free.dev/auth/login",
-        {
-            method: "POST",
+/* ==========================================
+   API
+========================================== */
 
-            headers: {
-                "ngrok-skip-browser-warning": "true"
-            },
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
 
-            body: formData
-        }
-    );
+
+/* ==========================================
+   LOGIN CHECK
+========================================== */
+
+const loggedIn =
+    localStorage.getItem("loggedIn");
+
+const userEmail =
+    localStorage.getItem("userEmail");
+
+
+if (
+    loggedIn !== "true" ||
+    !userEmail
+) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ==========================================
+   GLOBAL DOCUMENT
+========================================== */
 
 let currentDocument = null;
+
+
+/* ==========================================
+   HTML SAFE TEXT
+========================================== */
+
+function escapeHtml(text) {
+
+    return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
 
 
 /* ==========================================
@@ -407,21 +443,39 @@ let currentDocument = null;
 async function loadDocument() {
 
     const area =
-        document.getElementById("reviewArea");
+        document.getElementById(
+            "reviewArea"
+        );
 
 
     try {
 
+        /* ==================================
+           GET DOCUMENTS
+        ================================== */
+
         const response =
             await fetch(
-                `${API_URL}/documents/`
+                `${API_URL}/documents/`,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    }
+
+                }
             );
 
 
         if (!response.ok) {
 
             throw new Error(
-                "Unable to load documents"
+                "Unable to load documents."
             );
 
         }
@@ -431,18 +485,45 @@ async function loadDocument() {
             await response.json();
 
 
+        console.log(
+            "Documents response:",
+            data
+        );
+
+
         const documents =
             data.documents || [];
 
 
-        if (documents.length === 0) {
+        /* ==================================
+           NO DOCUMENT
+        ================================== */
+
+        if (
+            documents.length === 0
+        ) {
 
             area.innerHTML = `
 
                 <div class="card">
 
                     <div class="empty">
+
                         No documents available for review.
+
+                        <br><br>
+
+                        <a
+                            href="upload.html"
+                            style="
+                                color:#60a5fa;
+                                text-decoration:none;
+                                font-weight:bold;
+                            "
+                        >
+                            Upload a document
+                        </a>
+
                     </div>
 
                 </div>
@@ -454,10 +535,40 @@ async function loadDocument() {
         }
 
 
-        /* Latest document */
+        /* ==================================
+           GET LATEST / CURRENT DOCUMENT
+        ================================== */
 
-        currentDocument =
-            documents[0];
+        const savedDocumentId =
+            localStorage.getItem(
+                "documentId"
+            );
+
+
+        if (savedDocumentId) {
+
+            currentDocument =
+                documents.find(
+                    function(doc) {
+
+                        return String(doc.id) ===
+                            String(savedDocumentId);
+
+                    }
+                );
+
+        }
+
+
+        /* If saved document was not found,
+           use latest document */
+
+        if (!currentDocument) {
+
+            currentDocument =
+                documents[0];
+
+        }
 
 
         const doc =
@@ -465,21 +576,31 @@ async function loadDocument() {
 
 
         /* ==================================
-           VERIFICATION STATUS
+           VERIFICATION
         ================================== */
 
         let verificationClass =
-            doc.verification_status === "verified"
-                ? "verified"
-                : "review";
+            "review";
+
+
+        if (
+            doc.verification_status ===
+            "verified"
+        ) {
+
+            verificationClass =
+                "verified";
+
+        }
 
 
         /* ==================================
-           WORKFLOW STATUS
+           WORKFLOW
         ================================== */
 
         let workflowStatus =
-            doc.workflow_status || "Pending";
+            doc.workflow_status ||
+            "Pending";
 
 
         let workflowClass =
@@ -487,7 +608,8 @@ async function loadDocument() {
 
 
         if (
-            workflowStatus === "approved"
+            workflowStatus ===
+            "approved"
         ) {
 
             workflowClass =
@@ -496,7 +618,8 @@ async function loadDocument() {
         }
 
         else if (
-            workflowStatus === "rejected"
+            workflowStatus ===
+            "rejected"
         ) {
 
             workflowClass =
@@ -505,7 +628,8 @@ async function loadDocument() {
         }
 
         else if (
-            workflowStatus === "needs_review"
+            workflowStatus ===
+            "needs_review"
         ) {
 
             workflowClass =
@@ -515,7 +639,7 @@ async function loadDocument() {
 
 
         /* ==================================
-           GET GENAI REASONING
+           GET GENAI RESULT
         ================================== */
 
         let managerAgent = null;
@@ -529,7 +653,9 @@ async function loadDocument() {
                 );
 
 
-            if (savedManagerAgent) {
+            if (
+                savedManagerAgent
+            ) {
 
                 managerAgent =
                     JSON.parse(
@@ -543,7 +669,7 @@ async function loadDocument() {
         catch (error) {
 
             console.log(
-                "GenAI data unavailable"
+                "Unable to read Manager Agent data."
             );
 
         }
@@ -562,8 +688,6 @@ async function loadDocument() {
 
         area.innerHTML = `
 
-            <!-- DOCUMENT CARD -->
-
             <div class="card">
 
                 <h2>
@@ -581,7 +705,7 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            #${doc.id}
+                            #${escapeHtml(doc.id)}
                         </div>
 
                     </div>
@@ -594,7 +718,9 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            ${doc.file_name || "-"}
+                            ${escapeHtml(
+                                doc.file_name || "-"
+                            )}
                         </div>
 
                     </div>
@@ -607,7 +733,9 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            ${doc.invoice_number || "-"}
+                            ${escapeHtml(
+                                doc.invoice_number || "-"
+                            )}
                         </div>
 
                     </div>
@@ -620,7 +748,9 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            ${doc.vendor || "-"}
+                            ${escapeHtml(
+                                doc.vendor || "-"
+                            )}
                         </div>
 
                     </div>
@@ -633,7 +763,9 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            ₹${doc.total_amount || "0"}
+                            ₹${escapeHtml(
+                                doc.total_amount || "0"
+                            )}
                         </div>
 
                     </div>
@@ -646,7 +778,9 @@ async function loadDocument() {
                         </div>
 
                         <div class="value">
-                            ${doc.category || "-"}
+                            ${escapeHtml(
+                                doc.category || "-"
+                            )}
                         </div>
 
                     </div>
@@ -661,9 +795,13 @@ async function loadDocument() {
                         <div class="value">
 
                             <span
-                                class="status ${verificationClass}">
+                                class="status ${verificationClass}"
+                            >
 
-                                ${doc.verification_status || "Pending"}
+                                ${escapeHtml(
+                                    doc.verification_status ||
+                                    "Pending"
+                                )}
 
                             </span>
 
@@ -681,9 +819,12 @@ async function loadDocument() {
                         <div class="value">
 
                             <span
-                                class="status ${workflowClass}">
+                                class="status ${workflowClass}"
+                            >
 
-                                ${workflowStatus}
+                                ${escapeHtml(
+                                    workflowStatus
+                                )}
 
                             </span>
 
@@ -691,10 +832,11 @@ async function loadDocument() {
 
                     </div>
 
+
                 </div>
 
 
-                <!-- GENAI REASONING -->
+                <!-- GENAI -->
 
                 <div class="ai-box">
 
@@ -712,7 +854,9 @@ async function loadDocument() {
 
                     <div class="ai-reasoning">
 
-                        ${escapeHtml(aiReasoning)}
+                        ${escapeHtml(
+                            aiReasoning
+                        )}
 
                     </div>
 
@@ -742,7 +886,8 @@ async function loadDocument() {
                         <button
                             id="approveBtn"
                             class="approve"
-                            onclick="approveDocument()">
+                            onclick="approveDocument()"
+                        >
 
                             ✓ Approve Document
 
@@ -752,7 +897,8 @@ async function loadDocument() {
                         <button
                             id="rejectBtn"
                             class="reject"
-                            onclick="rejectDocument()">
+                            onclick="rejectDocument()"
+                        >
 
                             ✕ Reject Document
 
@@ -762,7 +908,8 @@ async function loadDocument() {
                         <button
                             id="reviewBtn"
                             class="review-btn"
-                            onclick="sendForReview()">
+                            onclick="sendForReview()"
+                        >
 
                             ↻ Send for Further Review
 
@@ -774,13 +921,11 @@ async function loadDocument() {
                 </div>
 
 
-                <!-- MESSAGE -->
-
                 <div
                     id="message"
                     class="message">
-
                 </div>
+
 
             </div>
 
@@ -791,7 +936,10 @@ async function loadDocument() {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Review loading error:",
+            error
+        );
 
 
         area.innerHTML = `
@@ -800,9 +948,12 @@ async function loadDocument() {
 
                 <div
                     class="message error"
-                    style="display:block">
+                    style="display:block"
+                >
 
-                    ❌ ${error.message}
+                    ❌ ${escapeHtml(
+                        error.message
+                    )}
 
                     <br><br>
 
@@ -820,23 +971,7 @@ async function loadDocument() {
 
 
 /* ==========================================
-   HTML SAFE TEXT
-========================================== */
-
-function escapeHtml(text) {
-
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* ==========================================
-   UPDATE APPROVAL
+   APPROVAL UPDATE
 ========================================== */
 
 async function updateApproval(
@@ -876,7 +1011,6 @@ async function updateApproval(
 
     try {
 
-
         /* Disable buttons */
 
         approveBtn.disabled =
@@ -889,7 +1023,9 @@ async function updateApproval(
             true;
 
 
-        /* Send decision */
+        /* ==================================
+           SEND APPROVAL
+        ================================== */
 
         const response =
             await fetch(
@@ -901,7 +1037,10 @@ async function updateApproval(
                     headers: {
 
                         "Content-Type":
-                            "application/json"
+                            "application/json",
+
+                        "ngrok-skip-browser-warning":
+                            "true"
 
                     },
 
@@ -923,17 +1062,26 @@ async function updateApproval(
             await response.json();
 
 
+        console.log(
+            "Approval response:",
+            data
+        );
+
+
         if (!response.ok) {
 
             throw new Error(
                 data.message ||
-                "Request failed"
+                data.detail ||
+                "Approval request failed."
             );
 
         }
 
 
-        /* Save approval response */
+        /* ==================================
+           SAVE RESPONSE
+        ================================== */
 
         localStorage.setItem(
             "approvalResponse",
@@ -942,64 +1090,59 @@ async function updateApproval(
 
 
         /* ==================================
-           SUCCESS
+           SHOW RESULT
         ================================== */
 
         if (
-            decision === "approve"
+            decision ===
+            "approve"
         ) {
 
             message.className =
                 "message success";
 
-            message.innerHTML =
+            message.textContent =
                 "✅ Document approved successfully!";
 
         }
 
-
-        /* ==================================
-           REJECT
-        ================================== */
-
         else if (
-            decision === "reject"
+            decision ===
+            "reject"
         ) {
 
             message.className =
                 "message error";
 
-            message.innerHTML =
+            message.textContent =
                 "❌ Document rejected successfully!";
 
         }
 
-
-        /* ==================================
-           FURTHER REVIEW
-        ================================== */
-
-        else if (
-            decision === "review"
-        ) {
+        else {
 
             message.className =
                 "message warning";
 
-            message.innerHTML =
+            message.textContent =
                 "⚠ Document sent for further review!";
 
         }
 
 
-        /* Redirect after 2 seconds */
+        message.style.display =
+            "block";
+
+
+        /* ==================================
+           REDIRECT
+        ================================== */
 
         setTimeout(
             function() {
 
-                window.location.assign(
-                    "document.html"
-                );
+                window.location.href =
+                    "document.html";
 
             },
             2000
@@ -1010,15 +1153,23 @@ async function updateApproval(
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Approval error:",
+            error
+        );
 
 
         message.className =
             "message error";
 
 
-        message.innerHTML =
-            "❌ " + error.message;
+        message.textContent =
+            "❌ " +
+            error.message;
+
+
+        message.style.display =
+            "block";
 
 
         /* Enable buttons */
@@ -1088,4 +1239,3 @@ loadDocument();
 </body>
 
 </html>
-
