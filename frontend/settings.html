@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Settings - FinFlow AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 240px;
+            background: #111827;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .nav a {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            padding: 30px 40px;
+        }
+
+        /* ================= TOPBAR ================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .topbar-left h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .topbar-left p {
+            color: #6b7280;
+        }
+
+        /* USER NAME */
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            font-weight: 600;
+            color: #17244f;
+        }
+
+        .user-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* ================= SETTINGS ================= */
+
+        .settings-container {
+            max-width: 850px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            width: 240px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        #message {
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .success {
+            color: #16a34a;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            input[type="text"],
+            input[type="email"] {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        FinFlow AI
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="upload.html">
+            Upload
+        </a>
+
+        <a href="processing.html">
+            AI Processing
+        </a>
+
+        <a href="document.html">
+            Documents
+        </a>
+
+        <a href="review.html">
+            Review
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="settings.html"
+           class="active">
+            Settings
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="topbar-left">
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage your FinFlow AI preferences and account settings.
+            </p>
+
+        </div>
+
+
+        <!-- USER NAME -->
+
+        <div class="user-box">
+
+            <div class="user-icon">
+                👤
+            </div>
+
+            <span id="topUserName">
+                Loading...
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= SETTINGS CONTAINER ================= -->
+
+    <div class="settings-container">
+
+
+        <!-- ================= ACCOUNT SETTINGS ================= -->
+
+        <div class="section">
+
+            <h2>
+                Account Settings
+            </h2>
+
+
+            <!-- NAME -->
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Name
+                    </h3>
+
+                    <p>
+                        Your account name
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Loading..."
+                >
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Email
+                    </h3>
+
+                    <p>
+                        Your registered email address
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Loading..."
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= AI PREFERENCES ================= -->
+
+        <div class="section">
+
+            <h2>
+                AI Processing Preferences
+            </h2>
+
+
+            <!-- AUTOMATIC VERIFICATION -->
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Automatic Verification
+                    </h3>
+
+                    <p>
+                        Automatically verify extracted financial information.
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="checkbox"
+                    id="automaticVerification"
+                >
+
+            </div>
+
+
+
+            <!-- AI CATEGORIZATION -->
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        AI Categorization
+                    </h3>
+
+                    <p>
+                        Automatically categorize uploaded documents.
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="checkbox"
+                    id="aiCategorization"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= NOTIFICATIONS ================= -->
+
+        <div class="section">
+
+            <h2>
+                Notifications
+            </h2>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Processing Notifications
+                    </h3>
+
+                    <p>
+                        Receive notifications when document processing is completed.
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="checkbox"
+                    id="processingNotifications"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= SAVE ================= -->
+
+        <div class="section">
+
+            <button
+                class="save-btn"
+                id="saveBtn"
+                onclick="saveSettings()">
+
+                Save Changes
+
+            </button>
+
+
+            <p id="message"></p>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+/* =====================================================
+   FINFLOW AI BACKEND URL
+===================================================== */
+
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
+
+
+/* =====================================================
+   LOAD USER NAME IN TOP RIGHT
+===================================================== */
+
+function loadTopUserName() {
+
+    const topUserName =
+        document.getElementById("topUserName");
+
+
+    const savedName =
+        localStorage.getItem("userName");
+
+
+    if (savedName && savedName.trim() !== "") {
+
+        topUserName.textContent =
+            savedName;
+
+    }
+
+    else {
+
+        topUserName.textContent =
+            "User";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD SETTINGS
+===================================================== */
+
+async function loadSettings() {
+
+    const nameInput =
+        document.getElementById("name");
+
+
+    const emailInput =
+        document.getElementById("email");
+
+
+    const message =
+        document.getElementById("message");
+
+
+    /*
+       Get email saved during login.
+    */
+
+    const savedEmail =
+        localStorage.getItem("userEmail");
+
+
+    /*
+       Get name saved during login.
+    */
+
+    const savedName =
+        localStorage.getItem("userName");
+
+
+    /*
+       Immediately show localStorage values.
+       This makes the page display the user
+       even before backend response arrives.
+    */
+
+    if (savedName) {
+
+        nameInput.value =
+            savedName;
+
+    }
+
+
+    if (savedEmail) {
+
+        emailInput.value =
+            savedEmail;
+
+    }
+
+
+    /*
+       Login is required.
+    */
+
+    if (!savedEmail) {
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "Please login first.";
+
+        return;
+
+    }
+
+
+    try {
+
+        /* ================================
+           GET SETTINGS FROM BACKEND
+        ================================= */
+
+        const response =
+            await fetch(
+                `${API_URL}/settings/?email=${encodeURIComponent(savedEmail)}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "ngrok-skip-browser-warning": "true"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            data.status !== "success"
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load settings."
+            );
+
+        }
+
+
+        /*
+           Backend settings
+        */
+
+        const settings =
+            data.settings;
+
+
+        /* ================================
+           DISPLAY DATABASE VALUES
+        ================================= */
+
+        nameInput.value =
+            settings.name || savedName || "";
+
+
+        emailInput.value =
+            settings.email || savedEmail || "";
+
+
+        document.getElementById(
+            "automaticVerification"
+        ).checked =
+            settings.automatic_verification;
+
+
+        document.getElementById(
+            "aiCategorization"
+        ).checked =
+            settings.ai_categorization;
+
+
+        document.getElementById(
+            "processingNotifications"
+        ).checked =
+            settings.processing_notifications;
+
+
+        /* ================================
+           UPDATE LOCAL STORAGE
+        ================================= */
+
+        localStorage.setItem(
+            "userName",
+            settings.name || savedName || ""
+        );
+
+
+        localStorage.setItem(
+            "userEmail",
+            settings.email || savedEmail || ""
+        );
+
+
+        /*
+           Update top-right username
+        */
+
+        loadTopUserName();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Settings Load Error:",
+            error
+        );
+
+
+        /*
+           Backend unavailable:
+           keep localStorage values.
+        */
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "Backend settings unavailable. Showing saved account details.";
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+async function saveSettings() {
+
+    const name =
+        document.getElementById(
+            "name"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim();
+
+
+    const automaticVerification =
+        document.getElementById(
+            "automaticVerification"
+        ).checked;
+
+
+    const aiCategorization =
+        document.getElementById(
+            "aiCategorization"
+        ).checked;
+
+
+    const processingNotifications =
+        document.getElementById(
+            "processingNotifications"
+        ).checked;
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+
+    /* ================================
+       VALIDATION
+    ================================= */
+
+    if (!name || !email) {
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "Name and email are required.";
+
+        return;
+
+    }
+
+
+    /* ================================
+       DISABLE BUTTON
+    ================================= */
+
+    saveBtn.disabled =
+        true;
+
+    saveBtn.textContent =
+        "Saving...";
+
+
+    try {
+
+        /* ================================
+           SEND TO FASTAPI
+        ================================= */
+
+        const response =
+            await fetch(
+                `${API_URL}/settings/`,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        email: email,
+
+                        name: name,
+
+                        automatic_verification:
+                            automaticVerification,
+
+                        ai_categorization:
+                            aiCategorization,
+
+                        processing_notifications:
+                            processingNotifications
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            data.status !== "success"
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to save settings."
+            );
+
+        }
+
+
+        /* ================================
+           UPDATE LOCAL STORAGE
+        ================================= */
+
+        localStorage.setItem(
+            "userName",
+            name
+        );
+
+
+        localStorage.setItem(
+            "userEmail",
+            email
+        );
+
+
+        /* ================================
+           UPDATE TOP USER NAME
+        ================================= */
+
+        document.getElementById(
+            "topUserName"
+        ).textContent =
+            name;
+
+
+        /* ================================
+           SUCCESS MESSAGE
+        ================================= */
+
+        message.className =
+            "success";
+
+        message.textContent =
+            "Settings saved successfully!";
+
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Settings Save Error:",
+            error
+        );
+
+
+        message.className =
+            "error";
+
+        message.textContent =
+            error.message;
+
+    }
+
+
+    /* ================================
+       ENABLE BUTTON
+    ================================= */
+
+    saveBtn.disabled =
+        false;
+
+    saveBtn.textContent =
+        "Save Changes";
+
+}
+
+
+/* =====================================================
+   PAGE START
+===================================================== */
+
+/*
+   First show username from localStorage.
+*/
+
+loadTopUserName();
+
+
+/*
+   Then load actual database settings.
+*/
+
+loadSettings();
+
+</script>
+
+
+</body>
+
+</html>

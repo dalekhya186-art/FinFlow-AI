@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>FinFlow AI - Processing</title>
+
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 240px;
+    background: #111827;
+    color: white;
+    padding: 25px 18px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-left: 12px;
+}
+
+.logo span {
+    color: #60a5fa;
+}
+
+.nav a {
+    display: block;
+    text-decoration: none;
+    color: #cbd5e1;
+    padding: 13px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #1f2937;
+    color: white;
+}
+
+
+/* ================= MAIN ================= */
+
+.main {
+    flex: 1;
+    padding: 30px 45px;
+}
+
+
+/* ================= TOPBAR ================= */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 28px;
+}
+
+
+/* ================= USER ================= */
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 7px 12px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #526ff1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #172033;
+}
+
+.user-email {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+
+/* ================= PROCESSING BOX ================= */
+
+.processing-container {
+    max-width: 850px;
+    margin: 60px auto;
+    background: white;
+    padding: 45px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+    text-align: center;
+}
+
+.icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+}
+
+.processing-container h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.file-name {
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 35px;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ================= PROGRESS ================= */
+
+.progress-wrapper {
+    margin-bottom: 35px;
+}
+
+.progress-bar {
+    height: 9px;
+    width: 100%;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #2563eb;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    margin-top: 10px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ================= STEPS ================= */
+
+.steps {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eef2f7;
+    color: #94a3b8;
+}
+
+.step:last-child {
+    border-bottom: none;
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.step.active {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.step.active .step-icon {
+    background: #dbeafe;
+}
+
+.step.completed {
+    color: #16a34a;
+}
+
+.step.completed .step-icon {
+    background: #dcfce7;
+}
+
+
+/* ================= RESULT ================= */
+
+.result-box {
+    display: none;
+    margin-top: 30px;
+    text-align: left;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.result-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.result-label {
+    color: #64748b;
+}
+
+.result-value {
+    font-weight: 600;
+    text-align: right;
+}
+
+.verified {
+    color: #16a34a;
+}
+
+.review {
+    color: #dc2626;
+}
+
+
+/* ================= GENAI ================= */
+
+.ai-box {
+    display: none;
+    margin-top: 25px;
+    padding: 22px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.ai-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3730a3;
+    margin-bottom: 12px;
+}
+
+.ai-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.ai-reasoning {
+    background: white;
+    padding: 16px;
+    border-radius: 9px;
+    color: #374151;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+
+/* ================= BUTTON ================= */
+
+.finish-btn {
+    display: none;
+    margin-top: 30px;
+    padding: 13px 25px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.finish-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* ================= ERROR ================= */
+
+.error-box {
+    display: none;
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #b91c1c;
+    text-align: left;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        padding: 20px;
+    }
+
+    .processing-container {
+        padding: 30px 20px;
+        margin: 30px auto;
+    }
+
+    .result-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .result-value {
+        text-align: left;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="layout">
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        FinFlow <span>AI</span>
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="upload.html">
+            Upload
+        </a>
+
+        <a
+            href="processing.html"
+            class="active">
+            AI Processing
+        </a>
+
+        <a href="document.html">
+            Documents
+        </a>
+
+        <a href="review.html">
+            Review
+        </a>
+
+        <a href="customers.html">
+            Customers
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="settings.html">
+            Settings
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<!-- ================= TOPBAR ================= -->
+
+<div class="topbar">
+
+
+    <h1>
+        AI Processing
+    </h1>
+
+
+    <div class="user-profile">
+
+
+        <div
+            class="avatar"
+            id="avatar">
+            U
+        </div>
+
+
+        <div class="user-info">
+
+            <div
+                class="user-name"
+                id="userName">
+                Loading...
+            </div>
+
+
+            <div
+                class="user-email"
+                id="userEmail">
+                Loading...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= PROCESSING ================= -->
+
+<section class="processing-container">
+
+
+<div class="icon">
+    🤖
+</div>
+
+
+<h2 id="title">
+    Analyzing Your Document
+</h2>
+
+
+<p
+    class="subtitle"
+    id="subtitle">
+
+    FinFlow AI is processing the uploaded financial document.
+
+</p>
+
+
+
+<div
+    class="file-name"
+    id="fileName">
+
+    Loading document...
+
+</div>
+
+
+
+<!-- ================= PROGRESS ================= -->
+
+<div class="progress-wrapper">
+
+
+    <div class="progress-bar">
+
+        <div
+            class="progress"
+            id="progress">
+        </div>
+
+    </div>
+
+
+    <div
+        class="progress-text"
+        id="progressText">
+
+        0% completed
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= STEPS ================= -->
+
+<div class="steps">
+
+
+    <div
+        class="step"
+        id="step1">
+
+        <div class="step-icon">
+            1
+        </div>
+
+        <span>
+            Document received
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="step"
+        id="step2">
+
+        <div class="step-icon">
+            2
+        </div>
+
+        <span>
+            Extracting financial information
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="step"
+        id="step3">
+
+        <div class="step-icon">
+            3
+        </div>
+
+        <span>
+            Verifying extracted information
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="step"
+        id="step4">
+
+        <div class="step-icon">
+            4
+        </div>
+
+        <span>
+            Categorizing the document
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="step"
+        id="step5">
+
+        <div class="step-icon">
+            5
+        </div>
+
+        <span>
+            Manager Agent + GenAI reasoning
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="step"
+        id="step6">
+
+        <div class="step-icon">
+            6
+        </div>
+
+        <span>
+            Human approval required
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= RESULT ================= -->
+
+<div
+    class="result-box"
+    id="resultBox">
+
+
+    <div class="result-title">
+        Processing Result
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Invoice Number
+        </span>
+
+        <span
+            class="result-value"
+            id="invoiceNumber">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Vendor
+        </span>
+
+        <span
+            class="result-value"
+            id="vendor">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Total Amount
+        </span>
+
+        <span
+            class="result-value"
+            id="totalAmount">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Verification
+        </span>
+
+        <span
+            class="result-value"
+            id="verification">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Category
+        </span>
+
+        <span
+            class="result-value"
+            id="category">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Manager Agent
+        </span>
+
+        <span
+            class="result-value"
+            id="managerDecision">
+            -
+        </span>
+
+    </div>
+
+
+    <div class="result-row">
+
+        <span class="result-label">
+            Database ID
+        </span>
+
+        <span
+            class="result-value"
+            id="databaseId">
+            -
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= GENAI ================= -->
+
+<div
+    class="ai-box"
+    id="aiBox">
+
+
+    <div class="ai-title">
+        🧠 GenAI Manager Reasoning
+    </div>
+
+
+    <div class="ai-subtitle">
+
+        Llama 3.2 analyzed the outputs from the accounting agents and recommended the next workflow action.
+
+    </div>
+
+
+    <div
+        class="ai-reasoning"
+        id="aiReasoning">
+
+        AI reasoning will appear here.
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= ERROR ================= -->
+
+<div
+    class="error-box"
+    id="errorBox">
+</div>
+
+
+
+<!-- ================= REVIEW ================= -->
+
+<a
+    href="review.html"
+    class="finish-btn"
+    id="finishBtn">
+
+    View Extracted Data →
+
+</a>
+
+
+</section>
+
+
+</main>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =================================================
+   API
+================================================= */
+
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
+
+
+
+/* =================================================
+   LOGIN / USER
+================================================= */
+
+const userName =
+    localStorage.getItem(
+        "userName"
+    );
+
+
+const userEmail =
+    localStorage.getItem(
+        "userEmail"
+    );
+
+
+const loggedIn =
+    localStorage.getItem(
+        "loggedIn"
+    );
+
+
+if (
+    loggedIn !== "true" ||
+    !userEmail
+) {
+
+    window.location.href =
+        "index.html";
+
+}
+else {
+
+
+    document.getElementById(
+        "userName"
+    ).textContent =
+        userName ||
+        "User";
+
+
+    document.getElementById(
+        "userEmail"
+    ).textContent =
+        userEmail;
+
+
+    document.getElementById(
+        "avatar"
+    ).textContent =
+        (
+            userName ||
+            userEmail
+        )
+        .charAt(0)
+        .toUpperCase();
+
+}
+
+
+
+/* =================================================
+   SAFE JSON
+================================================= */
+
+function getLocalJSON(
+    key
+) {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(key) ||
+            "{}"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Invalid localStorage data:",
+            key,
+            error
+        );
+
+        return {};
+
+    }
+
+}
+
+
+
+/* =================================================
+   READ UPLOADED DOCUMENT
+================================================= */
+
+const uploadedFile =
+    localStorage.getItem(
+        "uploadedFile"
+    );
+
+
+const invoiceData =
+    getLocalJSON(
+        "invoiceData"
+    );
+
+
+const verification =
+    getLocalJSON(
+        "verification"
+    );
+
+
+const category =
+    getLocalJSON(
+        "category"
+    );
+
+
+const managerAgent =
+    getLocalJSON(
+        "managerAgent"
+    );
+
+
+const databaseResult =
+    getLocalJSON(
+        "databaseResult"
+    );
+
+
+
+/* =================================================
+   DISPLAY FILE
+================================================= */
+
+document.getElementById(
+    "fileName"
+).textContent =
+    uploadedFile ||
+    "No document selected";
+
+
+
+/* =================================================
+   CHECK DOCUMENT
+================================================= */
+
+if (!uploadedFile) {
+
+    document.getElementById(
+        "title"
+    ).textContent =
+        "No Document Found";
+
+
+    document.getElementById(
+        "subtitle"
+    ).textContent =
+        "Please upload a financial document first.";
+
+
+    document.getElementById(
+        "fileName"
+    ).textContent =
+        "No uploaded document";
+
+
+    document.getElementById(
+        "errorBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "errorBox"
+    ).innerHTML = `
+
+        📄 No document is available for processing.
+
+        <br><br>
+
+        Please upload a document from the Upload page.
+
+        <br><br>
+
+        <a
+            href="upload.html"
+            style="
+                color:#1d4ed8;
+                font-weight:bold;
+                text-decoration:none;
+            "
+        >
+            Go to Upload →
+        </a>
+
+    `;
+
+}
+
+
+/* =================================================
+   PROCESSING STEPS
+================================================= */
+
+else {
+
+
+    const steps = [
+
+        document.getElementById("step1"),
+
+        document.getElementById("step2"),
+
+        document.getElementById("step3"),
+
+        document.getElementById("step4"),
+
+        document.getElementById("step5"),
+
+        document.getElementById("step6")
+
+    ];
+
+
+    const progress =
+        document.getElementById(
+            "progress"
+        );
+
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    let currentStep = 0;
+
+
+
+    /* =============================================
+       PROCESS STEP
+    ============================================= */
+
+    function processStep() {
+
+
+        if (
+            currentStep > 0
+        ) {
+
+            steps[
+                currentStep - 1
+            ]
+            .classList.remove(
+                "active"
+            );
+
+
+            steps[
+                currentStep - 1
+            ]
+            .classList.add(
+                "completed"
+            );
+
+
+            steps[
+                currentStep - 1
+            ]
+            .querySelector(
+                ".step-icon"
+            )
+            .textContent =
+                "✓";
+
+        }
+
+
+
+        if (
+            currentStep <
+            steps.length
+        ) {
+
+
+            steps[
+                currentStep
+            ]
+            .classList.add(
+                "active"
+            );
+
+
+            const percentage =
+                Math.round(
+                    (
+                        (
+                            currentStep + 1
+                        )
+                        /
+                        steps.length
+                    )
+                    * 100
+                );
+
+
+            progress.style.width =
+                percentage + "%";
+
+
+            progressText.textContent =
+                percentage +
+                "% completed";
+
+
+            currentStep++;
+
+
+            setTimeout(
+                processStep,
+                1000
+            );
+
+        }
+
+
+        else {
+
+            showFinalResult();
+
+        }
+
+    }
+
+
+
+    /* =============================================
+       FINAL RESULT
+    ============================================= */
+
+    function showFinalResult() {
+
+
+        document.getElementById(
+            "title"
+        ).textContent =
+            "Analysis Complete";
+
+
+        document.getElementById(
+            "subtitle"
+        ).textContent =
+            "FinFlow AI completed the automated accounting workflow.";
+
+
+
+        /* INVOICE NUMBER */
+
+        document.getElementById(
+            "invoiceNumber"
+        ).textContent =
+            invoiceData.invoice_number ||
+            "-";
+
+
+
+        /* VENDOR */
+
+        document.getElementById(
+            "vendor"
+        ).textContent =
+            invoiceData.vendor ||
+            "-";
+
+
+
+        /* TOTAL */
+
+        document.getElementById(
+            "totalAmount"
+        ).textContent =
+            invoiceData.total_amount
+            ? "₹ " +
+              invoiceData.total_amount
+            : "-";
+
+
+
+        /* VERIFICATION */
+
+        const verificationElement =
+            document.getElementById(
+                "verification"
+            );
+
+
+        const verificationStatus =
+            String(
+                verification.status ||
+                ""
+            )
+            .toLowerCase()
+            .trim();
+
+
+        verificationElement.textContent =
+            verification.status ||
+            "-";
+
+
+        verificationElement.classList.remove(
+            "verified",
+            "review"
+        );
+
+
+        if (
+            verificationStatus ===
+            "verified"
+        ) {
+
+            verificationElement.classList.add(
+                "verified"
+            );
+
+        }
+
+        else if (
+            verificationStatus
+        ) {
+
+            verificationElement.classList.add(
+                "review"
+            );
+
+        }
+
+
+
+        /* CATEGORY */
+
+        document.getElementById(
+            "category"
+        ).textContent =
+            category.category ||
+            "-";
+
+
+
+        /* MANAGER */
+
+        document.getElementById(
+            "managerDecision"
+        ).textContent =
+            managerAgent.decision ||
+            "-";
+
+
+
+        /* DATABASE ID */
+
+        document.getElementById(
+            "databaseId"
+        ).textContent =
+            databaseResult.id ||
+            "-";
+
+
+
+        /* =========================================
+           GENAI REASONING
+        ========================================= */
+
+        const aiBox =
+            document.getElementById(
+                "aiBox"
+            );
+
+
+        const aiReasoning =
+            document.getElementById(
+                "aiReasoning"
+            );
+
+
+        if (
+            managerAgent.ai_reasoning
+        ) {
+
+            aiReasoning.textContent =
+                managerAgent.ai_reasoning;
+
+        }
+
+        else if (
+            managerAgent.reasoning
+        ) {
+
+            aiReasoning.textContent =
+                managerAgent.reasoning;
+
+        }
+
+        else {
+
+            aiReasoning.textContent =
+                "GenAI reasoning is not available.";
+
+        }
+
+
+        aiBox.style.display =
+            "block";
+
+
+
+        /* RESULT */
+
+        document.getElementById(
+            "resultBox"
+        ).style.display =
+            "block";
+
+
+
+        /* REVIEW BUTTON */
+
+        document.getElementById(
+            "finishBtn"
+        ).style.display =
+            "inline-block";
+
+    }
+
+
+
+    /* =============================================
+       START
+    ============================================= */
+
+    setTimeout(
+        processStep,
+        500
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
