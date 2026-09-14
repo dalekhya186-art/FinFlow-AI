@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinFlow AI - Upload Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            display: flex;
+            color: #17244f;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #111c3d, #273b86);
+            color: white;
+            min-height: 100vh;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .logo span {
+            color: #6da8ff;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #dce3ff;
+            padding: 13px 14px;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #e5e8f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .topbar h2 {
+            font-size: 22px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #4169e1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .profile-email {
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .page-title {
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* UPLOAD BOX */
+
+        .upload-box {
+            background: white;
+            border-radius: 18px;
+            padding: 45px;
+            border: 2px dashed #cdd5ed;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .upload-box.dragover {
+            border-color: #4169e1;
+            background: #f7f9ff;
+        }
+
+        .upload-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .upload-box h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .upload-box p {
+            color: #777;
+            margin-bottom: 22px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #315be8, #6847e8);
+            color: white;
+            padding: 13px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* FILE */
+
+        .file-info {
+            display: none;
+            margin-top: 25px;
+            padding: 15px;
+            background: #f4f6fb;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .file-name {
+            font-weight: bold;
+        }
+
+        .file-size {
+            color: #777;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* BUTTON */
+
+        .analyze-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #315be8, #6847e8);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+
+        .analyze-btn:hover {
+            opacity: 0.9;
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* STATUS */
+
+        #status {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #eaf8ef;
+            color: #16803c;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #d92d20;
+        }
+
+        .processing {
+            background: #eef3ff;
+            color: #315be8;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .upload-box {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            FinFlow <span>AI</span>
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="upload.html" class="active">
+                📤 Upload Document
+            </a>
+
+            <a href="processing.html">
+                ⚙️ Processing
+            </a>
+
+            <a href="document.html">
+                📄 Documents
+            </a>
+
+            <a href="customers.html">
+                👥 Customers
+            </a>
+
+            <a href="settings.html">
+                ⚙️ Settings
+            </a>
+
+            <a href="index.html" onclick="logout()">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <h2>
+                Upload Document
+            </h2>
+
+            <div class="profile">
+
+                <div class="avatar" id="avatar">
+                    U
+                </div>
+
+                <div class="profile-info">
+
+                    <div
+                        class="profile-name"
+                        id="topUserName">
+                        User
+                    </div>
+
+                    <div
+                        class="profile-email"
+                        id="topUserEmail">
+                        user@email.com
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <h1 class="page-title">
+                Upload Financial Document
+            </h1>
+
+            <p class="page-subtitle">
+                Upload an invoice or receipt for AI-powered accounting processing.
+            </p>
+
+
+            <!-- UPLOAD BOX -->
+
+            <div
+                class="upload-box"
+                id="uploadBox">
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Upload Invoice or Receipt
+                </h3>
+
+                <p>
+                    Drag & drop your file here or browse from your computer
+                </p>
+
+                <label
+                    for="fileInput"
+                    class="browse-btn">
+                    Choose File
+                </label>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.png,.jpg,.jpeg"
+                >
+
+
+                <!-- FILE INFO -->
+
+                <div
+                    class="file-info"
+                    id="fileInfo">
+
+                    <div
+                        class="file-name"
+                        id="fileName">
+                    </div>
+
+                    <div
+                        class="file-size"
+                        id="fileSize">
+                    </div>
+
+                </div>
+
+
+                <!-- ANALYZE BUTTON -->
+
+                <button
+                    class="analyze-btn"
+                    id="analyzeBtn">
+
+                    🚀 Process Document
+
+                </button>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div id="status"></div>
+
+        </section>
+
+    </main>
+
+
+<script>
+
+/* =========================================
+   API URL
+========================================= */
+
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
+
+
+/* =========================================
+   LOGIN CHECK
+========================================= */
+
+const loggedIn =
+    localStorage.getItem("loggedIn");
+
+const userEmail =
+    localStorage.getItem("userEmail");
+
+const userName =
+    localStorage.getItem("userName");
+
+
+if (
+    loggedIn !== "true" ||
+    !userEmail
+) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+const topUserName =
+    document.getElementById("topUserName");
+
+const topUserEmail =
+    document.getElementById("topUserEmail");
+
+const avatar =
+    document.getElementById("avatar");
+
+
+topUserName.textContent =
+    userName || "User";
+
+topUserEmail.textContent =
+    userEmail || "";
+
+
+if (userName) {
+
+    avatar.textContent =
+        userName
+            .charAt(0)
+            .toUpperCase();
+
+}
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const uploadBox =
+    document.getElementById("uploadBox");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const fileInfo =
+    document.getElementById("fileInfo");
+
+const fileName =
+    document.getElementById("fileName");
+
+const fileSize =
+    document.getElementById("fileSize");
+
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
+
+const status =
+    document.getElementById("status");
+
+
+let selectedFile = null;
+
+
+/* =========================================
+   FILE SELECT
+========================================= */
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        if (fileInput.files.length === 0) {
+            return;
+        }
+
+        selectedFile =
+            fileInput.files[0];
+
+        showFile(selectedFile);
+
+    }
+);
+
+
+/* =========================================
+   SHOW FILE
+========================================= */
+
+function showFile(file) {
+
+    fileName.textContent =
+        file.name;
+
+    fileSize.textContent =
+        formatFileSize(file.size);
+
+    fileInfo.style.display =
+        "block";
+
+    analyzeBtn.style.display =
+        "block";
+
+    status.style.display =
+        "none";
+}
+
+
+/* =========================================
+   FILE SIZE
+========================================= */
+
+function formatFileSize(bytes) {
+
+    if (bytes < 1024) {
+
+        return bytes + " Bytes";
+
+    }
+
+    if (bytes < 1024 * 1024) {
+
+        return (
+            (bytes / 1024).toFixed(2)
+            + " KB"
+        );
+
+    }
+
+    return (
+        (bytes / (1024 * 1024)).toFixed(2)
+        + " MB"
+    );
+
+}
+
+
+/* =========================================
+   DRAG OVER
+========================================= */
+
+uploadBox.addEventListener(
+    "dragover",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadBox.classList.add(
+            "dragover"
+        );
+
+    }
+);
+
+
+/* =========================================
+   DRAG LEAVE
+========================================= */
+
+uploadBox.addEventListener(
+    "dragleave",
+    function () {
+
+        uploadBox.classList.remove(
+            "dragover"
+        );
+
+    }
+);
+
+
+/* =========================================
+   DROP
+========================================= */
+
+uploadBox.addEventListener(
+    "drop",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadBox.classList.remove(
+            "dragover"
+        );
+
+        if (
+            event.dataTransfer.files.length === 0
+        ) {
+
+            return;
+
+        }
+
+        selectedFile =
+            event.dataTransfer.files[0];
+
+        showFile(selectedFile);
+
+    }
+);
+
+
+/* =========================================
+   STATUS FUNCTION
+========================================= */
+
+function showStatus(
+    message,
+    type
+) {
+
+    status.textContent =
+        message;
+
+    status.className =
+        type;
+
+    status.style.display =
+        "block";
+
+}
+
+
+/* =========================================
+   PROCESS DOCUMENT
+========================================= */
+
+analyzeBtn.addEventListener(
+    "click",
+    startAnalysis
+);
+
+
+async function startAnalysis() {
+
+    if (!selectedFile) {
+
+        showStatus(
+            "Please select a file first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /* DISABLE BUTTON */
+
+    analyzeBtn.disabled =
+        true;
+
+    analyzeBtn.textContent =
+        "⏳ Processing...";
+
+
+    showStatus(
+        "Uploading document to FinFlow AI...",
+        "processing"
+    );
+
+
+    try {
+
+        /* =====================================
+           FORMDATA
+        ===================================== */
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            selectedFile
+        );
+
+
+        /* =====================================
+           SEND TO FASTAPI
+        ===================================== */
+
+        const response =
+            await fetch(
+                `${API_URL}/documents/upload`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "ngrok-skip-browser-warning":
+                            "true"
+                    },
+
+                    body: formData
+                }
+            );
+
+
+        /* =====================================
+           READ RESPONSE
+        ===================================== */
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "Backend response:",
+            responseText
+        );
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    responseText
+                );
+
+        }
+
+        catch (jsonError) {
+
+            throw new Error(
+                "Backend returned invalid response."
+            );
+
+        }
+
+
+        /* =====================================
+           CHECK RESPONSE
+        ===================================== */
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                data.message ||
+                "Document processing failed."
+            );
+
+        }
+
+
+        /* =====================================
+           SAVE RESULT
+        ===================================== */
+
+        localStorage.setItem(
+            "uploadedFile",
+            selectedFile.name
+        );
+
+
+        localStorage.setItem(
+            "invoiceData",
+            JSON.stringify(
+                data.invoice_data || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "verification",
+            JSON.stringify(
+                data.verification || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "category",
+            JSON.stringify(
+                data.category || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "workflow",
+            JSON.stringify(
+                data.workflow || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "documentResult",
+            JSON.stringify(
+                data.document || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "managerAgent",
+            JSON.stringify(
+                data.manager_agent || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "databaseResult",
+            JSON.stringify(
+                data.database || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "customer",
+            JSON.stringify(
+                data.customer || {}
+            )
+        );
+
+
+        localStorage.setItem(
+            "customerHistory",
+            JSON.stringify(
+                data.customer_history || {}
+            )
+        );
+
+
+        /* =====================================
+           SAVE DOCUMENT ID
+        ===================================== */
+
+        localStorage.setItem(
+            "documentId",
+            String(
+                data.database?.id || ""
+            )
+        );
+
+
+        /* =====================================
+           SAVE COMPLETE BACKEND RESPONSE
+        ===================================== */
+
+        localStorage.setItem(
+            "backendResponse",
+            JSON.stringify(data)
+        );
+
+
+        console.log(
+            "Document ID:",
+            data.database?.id
+        );
+
+
+        console.log(
+            "Saved processing result:",
+            data
+        );
+
+
+        /* =====================================
+           SUCCESS
+        ===================================== */
+
+        showStatus(
+            "✅ Document processed successfully! Redirecting...",
+            "success"
+        );
+
+
+        /* =====================================
+           REDIRECT
+        ===================================== */
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "processing.html";
+
+            },
+            800
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Upload Error:",
+            error
+        );
+
+
+        showStatus(
+            "❌ " + error.message,
+            "error"
+        );
+
+
+        analyzeBtn.disabled =
+            false;
+
+        analyzeBtn.textContent =
+            "🚀 Process Document";
+
+    }
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+    localStorage.removeItem(
+        "userName"
+    );
+
+    localStorage.removeItem(
+        "userEmail"
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

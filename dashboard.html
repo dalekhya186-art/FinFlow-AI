@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - FinFlow AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .nav a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin: 6px 0;
+            border-radius: 8px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 30px 35px;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .title-area h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .subtitle {
+            color: #6b7280;
+        }
+
+        /* ================= USER BOX ================= */
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            min-width: 180px;
+        }
+
+        .user-icon {
+            width: 36px;
+            height: 36px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #17244f;
+        }
+
+        .user-email {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .top-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .top-info h2 {
+            color: #111827;
+            font-size: 20px;
+        }
+
+        .count {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .refresh-btn {
+            background: #526ff1;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .refresh-btn:hover {
+            background: #405bd5;
+        }
+
+        /* ================= TABLE ================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            text-align: left;
+            color: #6b7280;
+            font-size: 13px;
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        td {
+            padding: 16px 14px;
+            border-bottom: 1px solid #eef0f4;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        tr:hover {
+            background: #f8faff;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .verified {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .needs-review {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .approved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .pending {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        .error {
+            color: #dc2626;
+            text-align: center;
+            padding: 30px;
+            line-height: 1.7;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 25px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =================================================
+     SIDEBAR
+================================================= -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        💰 FinFlow AI
+    </div>
+
+
+    <div class="nav">
+
+        <a href="dashboard.html"
+           class="active">
+            🏠 Dashboard
+        </a>
+
+
+        <a href="document.html">
+            📄 Documents
+        </a>
+
+
+        <a href="customers.html">
+            👥 Customers
+        </a>
+
+
+        <a href="upload.html">
+            ⬆ Upload
+        </a>
+
+
+        <a href="processing.html">
+            ⚙ Processing
+        </a>
+
+
+        <a href="review.html">
+            ✅ Review
+        </a>
+
+
+        <a href="reports.html">
+            📊 Reports
+        </a>
+
+
+        <a href="settings.html">
+            ⚙ Settings
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     MAIN
+================================================= -->
+
+<div class="main">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+
+        <div class="title-area">
+
+            <h1>
+                Dashboard
+            </h1>
+
+            <p class="subtitle">
+                Welcome to your FinFlow AI accounting workspace
+            </p>
+
+        </div>
+
+
+
+        <!-- USER DETAILS -->
+
+        <div class="user-box">
+
+            <div class="user-icon">
+                👤
+            </div>
+
+
+            <div class="user-details">
+
+                <span
+                    class="user-name"
+                    id="topUserName">
+
+                    Loading...
+
+                </span>
+
+
+                <span
+                    class="user-email"
+                    id="topUserEmail">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         DOCUMENT CARD
+    ================================================= -->
+
+    <div class="card">
+
+
+        <div class="top-info">
+
+
+            <h2>
+                Document Records
+            </h2>
+
+
+            <div>
+
+                <span
+                    class="count"
+                    id="documentCount">
+
+                    Loading...
+
+                </span>
+
+
+                <button
+                    class="refresh-btn"
+                    onclick="loadDocuments()">
+
+                    ↻ Refresh
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div id="documentArea">
+
+            <div class="empty">
+
+                Loading documents...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   FINFLOW AI BACKEND
+===================================================== */
+
+const API_URL =
+    "https://chili-latch-cardinal.ngrok-free.dev";
+
+
+/* =====================================================
+   LOAD USER DETAILS
+===================================================== */
+
+function loadUserDetails() {
+
+    const userName =
+        document.getElementById(
+            "topUserName"
+        );
+
+
+    const userEmail =
+        document.getElementById(
+            "topUserEmail"
+        );
+
+
+    const savedName =
+        localStorage.getItem(
+            "userName"
+        );
+
+
+    const savedEmail =
+        localStorage.getItem(
+            "userEmail"
+        );
+
+
+    if (
+        savedName &&
+        savedName.trim() !== ""
+    ) {
+
+        userName.textContent =
+            savedName;
+
+    }
+
+    else {
+
+        userName.textContent =
+            "User";
+
+    }
+
+
+    if (
+        savedEmail &&
+        savedEmail.trim() !== ""
+    ) {
+
+        userEmail.textContent =
+            savedEmail;
+
+    }
+
+    else {
+
+        userEmail.textContent =
+            "No email";
+
+    }
+
+}
+
+
+/* =====================================================
+   SAFE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "-";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   VERIFICATION STATUS CLASS
+===================================================== */
+
+function getVerificationClass(
+    status
+) {
+
+    if (
+        status === "verified"
+    ) {
+
+        return "verified";
+
+    }
+
+
+    if (
+        status === "needs_review"
+    ) {
+
+        return "needs-review";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+/* =====================================================
+   WORKFLOW STATUS CLASS
+===================================================== */
+
+function getWorkflowClass(
+    status
+) {
+
+    if (
+        status === "approved"
+    ) {
+
+        return "approved";
+
+    }
+
+
+    if (
+        status === "rejected"
+    ) {
+
+        return "rejected";
+
+    }
+
+
+    if (
+        status === "needs_review"
+    ) {
+
+        return "needs-review";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+/* =====================================================
+   STATUS TEXT
+===================================================== */
+
+function formatStatus(
+    status
+) {
+
+    if (!status) {
+
+        return "Pending";
+
+    }
+
+
+    return status
+
+        .replace(
+            /_/g,
+            " "
+        )
+
+        .replace(
+            /\b\w/g,
+            function(letter) {
+
+                return letter.toUpperCase();
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   LOAD DOCUMENTS
+===================================================== */
+
+async function loadDocuments() {
+
+
+    const area =
+        document.getElementById(
+            "documentArea"
+        );
+
+
+    const count =
+        document.getElementById(
+            "documentCount"
+        );
+
+
+    area.innerHTML = `
+
+        <div class="empty">
+
+            Loading documents...
+
+        </div>
+
+    `;
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/documents/`,
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "ngrok-skip-browser-warning":
+                            "true"
+
+                    }
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load documents."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const documents =
+            data.documents || [];
+
+
+        count.textContent =
+            `${documents.length} document(s)`;
+
+
+        /* =========================================
+           NO DOCUMENTS
+        ========================================= */
+
+        if (
+            documents.length === 0
+        ) {
+
+            area.innerHTML = `
+
+                <div class="empty">
+
+                    📄 No documents found.
+
+                    <br><br>
+
+                    Upload an invoice to get started.
+
+                    <br><br>
+
+                    <a href="upload.html">
+                        Go to Upload
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        let table = `
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            File
+                        </th>
+
+                        <th>
+                            Invoice Number
+                        </th>
+
+                        <th>
+                            Vendor
+                        </th>
+
+                        <th>
+                            Total Amount
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Verification
+                        </th>
+
+                        <th>
+                            Workflow
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+        `;
+
+
+        documents.forEach(
+            function(document) {
+
+
+                const verificationClass =
+                    getVerificationClass(
+                        document.verification_status
+                    );
+
+
+                const workflowClass =
+                    getWorkflowClass(
+                        document.workflow_status
+                    );
+
+
+                table += `
+
+                    <tr>
+
+                        <td>
+                            #${escapeHtml(
+                                document.id
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                document.file_name
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                document.invoice_number
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                document.vendor
+                            )}
+                        </td>
+
+
+                        <td>
+                            ₹${escapeHtml(
+                                document.total_amount ||
+                                "0"
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                document.category
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="status ${verificationClass}">
+
+                                ${formatStatus(
+                                    document.verification_status
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="status ${workflowClass}">
+
+                                ${formatStatus(
+                                    document.workflow_status
+                                )}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        table += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+
+        area.innerHTML =
+            table;
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Document Error:",
+            error
+        );
+
+
+        count.textContent =
+            "Error";
+
+
+        area.innerHTML = `
+
+            <div class="error">
+
+                ❌ Unable to load documents.
+
+                <br><br>
+
+                Make sure FastAPI and ngrok are running.
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PAGE START
+===================================================== */
+
+loadUserDetails();
+
+loadDocuments();
+
+</script>
+
+
+</body>
+
+</html>
