@@ -12,7 +12,6 @@
 
 <title>FinFlow AI - Processing</title>
 
-
 <style>
 
 * {
@@ -34,7 +33,7 @@ body {
 }
 
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 
 .sidebar {
     width: 240px;
@@ -72,7 +71,7 @@ body {
 }
 
 
-/* ================= MAIN ================= */
+/* MAIN */
 
 .main {
     flex: 1;
@@ -80,7 +79,7 @@ body {
 }
 
 
-/* ================= TOPBAR ================= */
+/* TOPBAR */
 
 .topbar {
     display: flex;
@@ -94,7 +93,7 @@ body {
 }
 
 
-/* ================= USER ================= */
+/* USER */
 
 .user-profile {
     display: flex;
@@ -126,7 +125,6 @@ body {
 .user-name {
     font-size: 14px;
     font-weight: bold;
-    color: #172033;
 }
 
 .user-email {
@@ -136,7 +134,7 @@ body {
 }
 
 
-/* ================= PROCESSING BOX ================= */
+/* PROCESSING */
 
 .processing-container {
     max-width: 850px;
@@ -184,7 +182,7 @@ body {
 }
 
 
-/* ================= PROGRESS ================= */
+/* PROGRESS */
 
 .progress-wrapper {
     margin-bottom: 35px;
@@ -213,7 +211,7 @@ body {
 }
 
 
-/* ================= STEPS ================= */
+/* STEPS */
 
 .steps {
     text-align: left;
@@ -263,7 +261,7 @@ body {
 }
 
 
-/* ================= RESULT ================= */
+/* RESULT */
 
 .result-box {
     display: none;
@@ -299,6 +297,7 @@ body {
 .result-value {
     font-weight: 600;
     text-align: right;
+    word-break: break-word;
 }
 
 .verified {
@@ -310,7 +309,7 @@ body {
 }
 
 
-/* ================= GENAI ================= */
+/* AI */
 
 .ai-box {
     display: none;
@@ -346,7 +345,7 @@ body {
 }
 
 
-/* ================= BUTTON ================= */
+/* BUTTON */
 
 .finish-btn {
     display: none;
@@ -364,7 +363,7 @@ body {
 }
 
 
-/* ================= ERROR ================= */
+/* ERROR */
 
 .error-box {
     display: none;
@@ -377,7 +376,7 @@ body {
 }
 
 
-/* ================= MOBILE ================= */
+/* MOBILE */
 
 @media (max-width: 800px) {
 
@@ -403,11 +402,6 @@ body {
         text-align: left;
     }
 
-    .topbar {
-        align-items: flex-start;
-        gap: 15px;
-    }
-
 }
 
 </style>
@@ -417,18 +411,16 @@ body {
 
 <body>
 
-
 <div class="layout">
 
 
-<!-- ================= SIDEBAR ================= -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
     <div class="logo">
         FinFlow <span>AI</span>
     </div>
-
 
     <nav class="nav">
 
@@ -471,31 +463,26 @@ body {
 </aside>
 
 
-
-<!-- ================= MAIN ================= -->
+<!-- MAIN -->
 
 <main class="main">
 
 
-<!-- ================= TOPBAR ================= -->
+<!-- TOPBAR -->
 
 <div class="topbar">
-
 
     <h1>
         AI Processing
     </h1>
 
-
     <div class="user-profile">
-
 
         <div
             class="avatar"
             id="avatar">
             U
         </div>
-
 
         <div class="user-info">
 
@@ -505,7 +492,6 @@ body {
                 Loading...
             </div>
 
-
             <div
                 class="user-email"
                 id="userEmail">
@@ -514,53 +500,43 @@ body {
 
         </div>
 
-
     </div>
-
 
 </div>
 
 
-
-<!-- ================= PROCESSING ================= -->
+<!-- PROCESSING -->
 
 <section class="processing-container">
-
 
 <div class="icon">
     🤖
 </div>
 
-
 <h2 id="title">
-    Analyzing Your Document
+    AI Processing
 </h2>
-
 
 <p
     class="subtitle"
     id="subtitle">
 
-    FinFlow AI is processing the uploaded financial document.
+    FinFlow AI is checking the latest uploaded document.
 
 </p>
-
-
 
 <div
     class="file-name"
     id="fileName">
 
-    Loading document...
+    Checking document...
 
 </div>
 
 
-
-<!-- ================= PROGRESS ================= -->
+<!-- PROGRESS -->
 
 <div class="progress-wrapper">
-
 
     <div class="progress-bar">
 
@@ -571,7 +547,6 @@ body {
 
     </div>
 
-
     <div
         class="progress-text"
         id="progressText">
@@ -580,121 +555,100 @@ body {
 
     </div>
 
-
 </div>
 
 
-
-<!-- ================= STEPS ================= -->
+<!-- STEPS -->
 
 <div class="steps">
 
 
-    <div
-        class="step"
-        id="step1">
+<div class="step" id="step1">
 
-        <div class="step-icon">
-            1
-        </div>
-
-        <span>
-            Document received
-        </span>
-
+    <div class="step-icon">
+        1
     </div>
 
+    <span>
+        Document received
+    </span>
+
+</div>
 
 
-    <div
-        class="step"
-        id="step2">
+<div class="step" id="step2">
 
-        <div class="step-icon">
-            2
-        </div>
-
-        <span>
-            Extracting financial information
-        </span>
-
+    <div class="step-icon">
+        2
     </div>
 
+    <span>
+        Extracting financial information
+    </span>
+
+</div>
 
 
-    <div
-        class="step"
-        id="step3">
+<div class="step" id="step3">
 
-        <div class="step-icon">
-            3
-        </div>
-
-        <span>
-            Verifying extracted information
-        </span>
-
+    <div class="step-icon">
+        3
     </div>
 
+    <span>
+        Verifying extracted information
+    </span>
+
+</div>
 
 
-    <div
-        class="step"
-        id="step4">
+<div class="step" id="step4">
 
-        <div class="step-icon">
-            4
-        </div>
-
-        <span>
-            Categorizing the document
-        </span>
-
+    <div class="step-icon">
+        4
     </div>
 
+    <span>
+        Categorizing the document
+    </span>
+
+</div>
 
 
-    <div
-        class="step"
-        id="step5">
+<div class="step" id="step5">
 
-        <div class="step-icon">
-            5
-        </div>
-
-        <span>
-            Manager Agent + GenAI reasoning
-        </span>
-
+    <div class="step-icon">
+        5
     </div>
 
+    <span>
+        Manager Agent + GenAI reasoning
+    </span>
+
+</div>
 
 
-    <div
-        class="step"
-        id="step6">
+<div class="step" id="step6">
 
-        <div class="step-icon">
-            6
-        </div>
-
-        <span>
-            Human approval required
-        </span>
-
+    <div class="step-icon">
+        6
     </div>
+
+    <span>
+        Human approval required
+    </span>
+
+</div>
 
 
 </div>
 
 
-
-<!-- ================= RESULT ================= -->
+<!-- RESULT -->
 
 <div
     class="result-box"
     id="resultBox">
-
 
     <div class="result-title">
         Processing Result
@@ -805,22 +759,18 @@ body {
 
     </div>
 
-
 </div>
 
 
-
-<!-- ================= GENAI ================= -->
+<!-- AI -->
 
 <div
     class="ai-box"
     id="aiBox">
 
-
     <div class="ai-title">
         🧠 GenAI Manager Reasoning
     </div>
-
 
     <div class="ai-subtitle">
 
@@ -828,21 +778,16 @@ body {
 
     </div>
 
-
     <div
         class="ai-reasoning"
         id="aiReasoning">
 
-        AI reasoning will appear here.
-
     </div>
-
 
 </div>
 
 
-
-<!-- ================= ERROR ================= -->
+<!-- ERROR -->
 
 <div
     class="error-box"
@@ -850,8 +795,7 @@ body {
 </div>
 
 
-
-<!-- ================= REVIEW ================= -->
+<!-- REVIEW -->
 
 <a
     href="review.html"
@@ -865,46 +809,25 @@ body {
 
 </section>
 
-
 </main>
-
 
 </div>
 
 
-
 <script>
 
-
-/* =================================================
-   API
-================================================= */
-
-const API_URL =
-    "https://chili-latch-cardinal.ngrok-free.dev";
-
-
-
-/* =================================================
-   LOGIN / USER
-================================================= */
+/* =========================================
+   LOGIN
+========================================= */
 
 const userName =
-    localStorage.getItem(
-        "userName"
-    );
-
+    localStorage.getItem("userName") || "User";
 
 const userEmail =
-    localStorage.getItem(
-        "userEmail"
-    );
-
+    localStorage.getItem("userEmail") || "";
 
 const loggedIn =
-    localStorage.getItem(
-        "loggedIn"
-    );
+    localStorage.getItem("loggedIn");
 
 
 if (
@@ -916,144 +839,77 @@ if (
         "index.html";
 
 }
-else {
 
 
-    document.getElementById(
-        "userName"
-    ).textContent =
-        userName ||
-        "User";
+/* =========================================
+   USER
+========================================= */
 
+document.getElementById(
+    "userName"
+).textContent =
+    userName;
 
-    document.getElementById(
-        "userEmail"
-    ).textContent =
-        userEmail;
+document.getElementById(
+    "userEmail"
+).textContent =
+    userEmail;
 
-
-    document.getElementById(
-        "avatar"
-    ).textContent =
-        (
-            userName ||
-            userEmail
-        )
+document.getElementById(
+    "avatar"
+).textContent =
+    userName
         .charAt(0)
         .toUpperCase();
 
-}
 
+/* =========================================
+   IMPORTANT CHECK
+========================================= */
 
-
-/* =================================================
-   SAFE JSON
-================================================= */
-
-function getLocalJSON(
-    key
-) {
-
-    try {
-
-        return JSON.parse(
-            localStorage.getItem(key) ||
-            "{}"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Invalid localStorage data:",
-            key,
-            error
-        );
-
-        return {};
-
-    }
-
-}
-
-
-
-/* =================================================
-   READ UPLOADED DOCUMENT
-================================================= */
-
-const uploadedFile =
+const newUploadReady =
     localStorage.getItem(
-        "uploadedFile"
+        "newUploadReady"
     );
 
 
-const invoiceData =
-    getLocalJSON(
-        "invoiceData"
-    );
+/*
+   If there is no NEW upload,
+   do NOT show old localStorage data.
+*/
 
-
-const verification =
-    getLocalJSON(
-        "verification"
-    );
-
-
-const category =
-    getLocalJSON(
-        "category"
-    );
-
-
-const managerAgent =
-    getLocalJSON(
-        "managerAgent"
-    );
-
-
-const databaseResult =
-    getLocalJSON(
-        "databaseResult"
-    );
-
-
-
-/* =================================================
-   DISPLAY FILE
-================================================= */
-
-document.getElementById(
-    "fileName"
-).textContent =
-    uploadedFile ||
-    "No document selected";
-
-
-
-/* =================================================
-   CHECK DOCUMENT
-================================================= */
-
-if (!uploadedFile) {
+if (
+    newUploadReady !== "true"
+) {
 
     document.getElementById(
         "title"
     ).textContent =
-        "No Document Found";
+        "No New Document";
 
 
     document.getElementById(
         "subtitle"
     ).textContent =
-        "Please upload a financial document first.";
+        "Please upload a new financial document before opening AI Processing.";
 
 
     document.getElementById(
         "fileName"
     ).textContent =
-        "No uploaded document";
+        "No new document uploaded";
+
+
+    document.getElementById(
+        "progress"
+    ).style.width =
+        "0%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        "Waiting for new upload";
 
 
     document.getElementById(
@@ -1066,11 +922,11 @@ if (!uploadedFile) {
         "errorBox"
     ).innerHTML = `
 
-        📄 No document is available for processing.
+        📄 No new document is ready for processing.
 
         <br><br>
 
-        Please upload a document from the Upload page.
+        Upload a new invoice or receipt first.
 
         <br><br>
 
@@ -1090,11 +946,66 @@ if (!uploadedFile) {
 }
 
 
-/* =================================================
-   PROCESSING STEPS
-================================================= */
+/* =========================================
+   NEW UPLOAD EXISTS
+========================================= */
 
 else {
+
+
+    const uploadedFile =
+        localStorage.getItem(
+            "uploadedFile"
+        );
+
+
+    const invoiceData =
+        getJSON(
+            "invoiceData"
+        );
+
+
+    const verification =
+        getJSON(
+            "verification"
+        );
+
+
+    const category =
+        getJSON(
+            "category"
+        );
+
+
+    const managerAgent =
+        getJSON(
+            "managerAgent"
+        );
+
+
+    const databaseResult =
+        getJSON(
+            "databaseResult"
+        );
+
+
+    const backendResponse =
+        getJSON(
+            "backendResponse"
+        );
+
+
+    const documentId =
+        localStorage.getItem(
+            "documentId"
+        );
+
+
+    document.getElementById(
+        "fileName"
+    ).textContent =
+        uploadedFile ||
+        "New document";
 
 
     const steps = [
@@ -1129,13 +1040,7 @@ else {
     let currentStep = 0;
 
 
-
-    /* =============================================
-       PROCESS STEP
-    ============================================= */
-
     function processStep() {
-
 
         if (
             currentStep > 0
@@ -1143,16 +1048,14 @@ else {
 
             steps[
                 currentStep - 1
-            ]
-            .classList.remove(
+            ].classList.remove(
                 "active"
             );
 
 
             steps[
                 currentStep - 1
-            ]
-            .classList.add(
+            ].classList.add(
                 "completed"
             );
 
@@ -1169,17 +1072,14 @@ else {
         }
 
 
-
         if (
             currentStep <
             steps.length
         ) {
 
-
             steps[
                 currentStep
-            ]
-            .classList.add(
+            ].classList.add(
                 "active"
             );
 
@@ -1192,8 +1092,7 @@ else {
                         )
                         /
                         steps.length
-                    )
-                    * 100
+                    ) * 100
                 );
 
 
@@ -1211,11 +1110,10 @@ else {
 
             setTimeout(
                 processStep,
-                1000
+                500
             );
 
         }
-
 
         else {
 
@@ -1226,10 +1124,262 @@ else {
     }
 
 
+    /* =========================================
+       JSON
+    ========================================= */
 
-    /* =============================================
+    function getJSON(key) {
+
+        try {
+
+            const value =
+                localStorage.getItem(
+                    key
+                );
+
+
+            if (!value) {
+
+                return {};
+
+            }
+
+
+            const parsed =
+                JSON.parse(value);
+
+
+            return (
+                parsed &&
+                typeof parsed === "object"
+            )
+                ? parsed
+                : {};
+
+        }
+
+        catch {
+
+            return {};
+
+        }
+
+    }
+
+
+    /* =========================================
+       VALUE
+    ========================================= */
+
+    function getValue(
+        object,
+        keys
+    ) {
+
+        for (
+            const key of keys
+        ) {
+
+            if (
+                object &&
+                object[key] !== undefined &&
+                object[key] !== null &&
+                String(
+                    object[key]
+                ).trim() !== ""
+            ) {
+
+                return object[key];
+
+            }
+
+        }
+
+        return "";
+
+    }
+
+
+    /* =========================================
+       INVOICE FALLBACK
+    ========================================= */
+
+    let finalInvoice =
+        invoiceData;
+
+
+    if (
+        Object.keys(finalInvoice)
+            .length === 0
+    ) {
+
+        finalInvoice =
+            backendResponse.invoice_data ||
+            {};
+
+    }
+
+
+    /* =========================================
+       VERIFICATION FALLBACK
+    ========================================= */
+
+    let finalVerification =
+        verification;
+
+
+    if (
+        Object.keys(finalVerification)
+            .length === 0
+    ) {
+
+        finalVerification =
+            backendResponse.verification ||
+            {};
+
+    }
+
+
+    /* =========================================
+       CATEGORY FALLBACK
+    ========================================= */
+
+    let finalCategory =
+        category;
+
+
+    if (
+        Object.keys(finalCategory)
+            .length === 0
+    ) {
+
+        finalCategory =
+            backendResponse.category ||
+            {};
+
+    }
+
+
+    /* =========================================
+       MANAGER FALLBACK
+    ========================================= */
+
+    let finalManager =
+        managerAgent;
+
+
+    if (
+        Object.keys(finalManager)
+            .length === 0
+    ) {
+
+        finalManager =
+            backendResponse.manager_agent ||
+            {};
+
+    }
+
+
+    /* =========================================
+       DATABASE FALLBACK
+    ========================================= */
+
+    let finalDatabase =
+        databaseResult;
+
+
+    if (
+        Object.keys(finalDatabase)
+            .length === 0
+    ) {
+
+        finalDatabase =
+            backendResponse.database ||
+            {};
+
+    }
+
+
+    /* =========================================
+       TOTAL
+    ========================================= */
+
+    function getTotal() {
+
+        const amount =
+            getValue(
+                finalInvoice,
+                [
+                    "total_amount",
+                    "total",
+                    "amount",
+                    "invoice_total",
+                    "grand_total",
+                    "totalAmount"
+                ]
+            );
+
+
+        if (
+            amount !== "" &&
+            amount !== null &&
+            amount !== undefined
+        ) {
+
+            return "₹ " + amount;
+
+        }
+
+        return "-";
+
+    }
+
+
+    /* =========================================
+       MANAGER
+    ========================================= */
+
+    function getManagerDecision() {
+
+        return getValue(
+            finalManager,
+            [
+                "decision",
+                "action",
+                "recommendation",
+                "next_action",
+                "workflow_action"
+            ]
+        ) || "-";
+
+    }
+
+
+    /* =========================================
+       AI REASONING
+    ========================================= */
+
+    function getReasoning() {
+
+        return getValue(
+            finalManager,
+            [
+                "ai_reasoning",
+                "reasoning",
+                "genai_reasoning",
+                "gen_ai_reasoning",
+                "analysis",
+                "explanation",
+                "message"
+            ]
+        ) || "";
+
+    }
+
+
+    /* =========================================
        FINAL RESULT
-    ============================================= */
+    ========================================= */
 
     function showFinalResult() {
 
@@ -1246,15 +1396,20 @@ else {
             "FinFlow AI completed the automated accounting workflow.";
 
 
-
-        /* INVOICE NUMBER */
+        /* INVOICE */
 
         document.getElementById(
             "invoiceNumber"
         ).textContent =
-            invoiceData.invoice_number ||
-            "-";
-
+            getValue(
+                finalInvoice,
+                [
+                    "invoice_number",
+                    "invoice_no",
+                    "invoiceNumber",
+                    "number"
+                ]
+            ) || "-";
 
 
         /* VENDOR */
@@ -1262,9 +1417,15 @@ else {
         document.getElementById(
             "vendor"
         ).textContent =
-            invoiceData.vendor ||
-            "-";
-
+            getValue(
+                finalInvoice,
+                [
+                    "vendor",
+                    "vendor_name",
+                    "supplier",
+                    "supplier_name"
+                ]
+            ) || "-";
 
 
         /* TOTAL */
@@ -1272,11 +1433,7 @@ else {
         document.getElementById(
             "totalAmount"
         ).textContent =
-            invoiceData.total_amount
-            ? "₹ " +
-              invoiceData.total_amount
-            : "-";
-
+            getTotal();
 
 
         /* VERIFICATION */
@@ -1289,22 +1446,21 @@ else {
 
         const verificationStatus =
             String(
-                verification.status ||
-                ""
+                getValue(
+                    finalVerification,
+                    [
+                        "status",
+                        "verification_status",
+                        "result"
+                    ]
+                )
             )
             .toLowerCase()
             .trim();
 
 
         verificationElement.textContent =
-            verification.status ||
-            "-";
-
-
-        verificationElement.classList.remove(
-            "verified",
-            "review"
-        );
+            verificationStatus || "-";
 
 
         if (
@@ -1329,15 +1485,20 @@ else {
         }
 
 
-
         /* CATEGORY */
 
         document.getElementById(
             "category"
         ).textContent =
-            category.category ||
-            "-";
-
+            getValue(
+                finalCategory,
+                [
+                    "category",
+                    "name",
+                    "classification",
+                    "document_category"
+                ]
+            ) || "-";
 
 
         /* MANAGER */
@@ -1345,9 +1506,7 @@ else {
         document.getElementById(
             "managerDecision"
         ).textContent =
-            managerAgent.decision ||
-            "-";
-
+            getManagerDecision();
 
 
         /* DATABASE ID */
@@ -1355,59 +1514,30 @@ else {
         document.getElementById(
             "databaseId"
         ).textContent =
-            databaseResult.id ||
+            documentId ||
+            getValue(
+                finalDatabase,
+                [
+                    "id",
+                    "document_id",
+                    "database_id"
+                ]
+            ) ||
             "-";
 
 
+        /* AI */
 
-        /* =========================================
-           GENAI REASONING
-        ========================================= */
-
-        const aiBox =
-            document.getElementById(
-                "aiBox"
-            );
+        const reasoning =
+            getReasoning();
 
 
-        const aiReasoning =
-            document.getElementById(
-                "aiReasoning"
-            );
+        document.getElementById(
+            "aiReasoning"
+        ).textContent =
+            reasoning ||
+            "GenAI reasoning was not returned by the Manager Agent.";
 
-
-        if (
-            managerAgent.ai_reasoning
-        ) {
-
-            aiReasoning.textContent =
-                managerAgent.ai_reasoning;
-
-        }
-
-        else if (
-            managerAgent.reasoning
-        ) {
-
-            aiReasoning.textContent =
-                managerAgent.reasoning;
-
-        }
-
-        else {
-
-            aiReasoning.textContent =
-                "GenAI reasoning is not available.";
-
-        }
-
-
-        aiBox.style.display =
-            "block";
-
-
-
-        /* RESULT */
 
         document.getElementById(
             "resultBox"
@@ -1415,21 +1545,35 @@ else {
             "block";
 
 
+        document.getElementById(
+            "aiBox"
+        ).style.display =
+            "block";
 
-        /* REVIEW BUTTON */
 
         document.getElementById(
             "finishBtn"
         ).style.display =
             "inline-block";
 
+
+        /*
+           IMPORTANT:
+
+           Once this new upload has been
+           displayed, mark it as consumed.
+
+           So clicking Processing again
+           will NOT display the same old file.
+        */
+
+        localStorage.setItem(
+            "newUploadReady",
+            "false"
+        );
+
     }
 
-
-
-    /* =============================================
-       START
-    ============================================= */
 
     setTimeout(
         processStep,
@@ -1438,9 +1582,7 @@ else {
 
 }
 
-
 </script>
-
 
 </body>
 
