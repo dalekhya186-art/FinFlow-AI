@@ -5,3 +5,7 @@ python-multipart
 pdfplumber
 pydantic
 email-validator
+requests
+pandas
+scikit-learn
+joblib
